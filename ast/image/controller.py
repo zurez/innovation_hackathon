@@ -14,9 +14,11 @@ class Image(object):
 		self.name= name
 		self.gallery_name=gallery_name
 	def encode(self):
+		encoded_string=""
 		with open (self.filecontent,"rb") as image_file :
 			encoded_string = base64.b64encode(image_file.read())
-			return encoded_string
+			# encoded_string= image_file.read().encode('base64')
+		return encoded_string
 
 	def enroll(self):
 		url= base_url+"/enroll"
@@ -28,9 +30,10 @@ class Image(object):
 		r=requests.post(url,data=json.dumps(payload),headers=header)
 		return r.content
 	def recognize(self):
+		encode = self.encode()
 		url= base_url+"/recognize"
 		payload={
-		"image":self.encode(),
+		"image":encode,
 		"gallery_name":self.gallery_name
 		}
 		r= requests.post(url, data=json.dumps(payload),headers=header)
@@ -39,11 +42,10 @@ class Image(object):
 
 # for i in range(1,58):
 # 	try:
-# 		filename= "/home/zurez/Work/hackathon/ast/image/images/himanshu/h ("+str(i)+").jpg"
+# 		filename= "/home/zurez/Work/hackathon/ast/image/images/peeyush/p ("+str(i)+").jpg"
 # 		# print (filename)
-# 		i = Image(filename,"Himanshu","gallery")
+# 		i = Image(filename,"Peeyush","gallery")
 # 		print(i.enroll())
 # 	except:pass
-
-i= Image("/home/zurez/Work/hackathon/ast/image/htest1.jpg","Zurez","gallery")
-print (i.recognize())
+# print ("Enroll DONE")
+# 
